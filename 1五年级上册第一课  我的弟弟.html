@@ -1,0 +1,385 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>第一课 我的弟弟 — 听写生词 字卡（已更新造句）</title>
+<style>
+  :root{
+    --card-width:720px;
+    --card-height:400px;
+    --bg:#fffaf6;
+    --accent:#ffdede;
+    --muted:#7d7d7d;
+    --green:#0b9d58;
+    --corner:20px;
+    --shadow: 0 8px 24px rgba(20,20,40,0.12);
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:20px;
+    font-family: "PingFang SC","Helvetica Neue","Arial",sans-serif;
+    background: linear-gradient(180deg,#fff 0%,#f7fbff 100%);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    min-height:100vh;
+    color:#222;
+  }
+  .container{
+    width:calc(var(--card-width) + 80px);
+    max-width:96vw;
+    text-align:center;
+  }
+  .card-frame{
+    width:var(--card-width);
+    height:var(--card-height);
+    margin:0 auto;
+    perspective:1400px;
+  }
+  .card{
+    width:100%;
+    height:100%;
+    position:relative;
+    transform-style:preserve-3d;
+    transition: transform 700ms cubic-bezier(.2,.9,.3,1);
+    border-radius:var(--corner);
+    box-shadow:var(--shadow);
+    cursor:pointer;
+  }
+  .card.flipped{ transform: rotateY(180deg); }
+  .side{
+    position:absolute;
+    inset:0;
+    -webkit-backface-visibility:hidden;
+    backface-visibility:hidden;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    padding:28px;
+    border-radius:var(--corner);
+    user-select:none;
+  }
+  .front{
+    background:
+      radial-gradient(circle at 10% 10%, rgba(255,255,255,0.6), transparent 20%),
+      linear-gradient(135deg,#fff1f5 0%, #fff 100%);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,0.6);
+  }
+  .front .top-deco{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+  }
+  .pinyin{
+    font-size:84px;
+    font-weight:700;
+    letter-spacing:6px;
+    text-transform:lowercase;
+    line-height:1;
+    margin-top:6px;
+    text-align:center;
+    color:#222;
+  }
+  .speaker-btn{
+    width:56px;
+    height:56px;
+    border-radius:50%;
+    border: none;
+    background: linear-gradient(180deg,#fff,#ffe6e6);
+    box-shadow: 0 4px 10px rgba(200,80,120,0.18);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:24px;
+    cursor:pointer;
+  }
+  .speaker-btn:active{ transform:scale(.96) }
+  .bottom-right{
+    position:absolute;
+    right:18px;
+    bottom:18px;
+    font-size:16px;
+    color:var(--muted);
+    text-align:right;
+  }
+  .back{
+    background: linear-gradient(135deg,#f9fff3 0%, #fff 100%);
+    transform: rotateY(180deg);
+    padding:26px 32px;
+  }
+  .word{
+    font-family:"KaiTi","STKaiti",serif;
+    font-size:30px;
+    font-weight:700;
+    margin-top:8px;
+    text-align:center;
+    color:#000;
+  }
+  .pinyin-ref{
+    text-align:center;
+    margin-top:6px;
+    color:#555;
+    font-size:20px;
+  }
+  .english{
+    margin-top:14px;
+    font-size:20px;
+    color:var(--green);
+    font-weight:600;
+    text-align:center;
+  }
+  .sentence-row{
+    margin-top:18px;
+    display:flex;
+    gap:12px;
+    align-items:flex-start;
+    justify-content:center;
+  }
+  .sentence{
+    font-family:"KaiTi","STKaiti",serif;
+    font-size:16px;
+    line-height:1.4;
+    max-width:74%;
+    text-align:left;
+    color:#111;
+  }
+  .sentence-actions{
+    display:flex;
+    gap:8px;
+    flex-direction:column;
+    align-items:center;
+    justify-content:flex-start;
+  }
+  .sentence-play{
+    width:46px;height:46px;border-radius:8px;border:none;
+    background:#fff;box-shadow:0 6px 16px rgba(10,20,40,0.08);
+    cursor:pointer;font-size:18px;
+  }
+  .sentence-engl{
+    margin-top:10px;
+    font-size:14px;
+    color:#444;
+    text-align:center;
+  }
+  .nav{
+    margin-top:18px;
+    display:flex;
+    gap:12px;
+    justify-content:center;
+    align-items:center;
+  }
+  .btn{
+    padding:10px 18px;
+    border-radius:12px;
+    border:none;
+    background:#ffffff;
+    box-shadow: 0 6px 14px rgba(30,60,120,0.06);
+    cursor:pointer;
+    font-weight:600;
+  }
+  .btn:active{ transform:translateY(2px) }
+  .progress{
+    margin-top:10px;
+    color:#666;
+    font-size:14px;
+  }
+  @media (max-width:800px){
+    .pinyin{ font-size:56px }
+    .card-frame{ height:360px }
+    .sentence{ font-size:15px; max-width:70% }
+  }
+</style>
+</head>
+<body>
+<div class="container" aria-live="polite">
+  <div id="card-frame" class="card-frame" role="application" aria-label="字卡">
+  </div>
+  <div class="nav" style="margin-top:12px;">
+    <button id="prevBtn" class="btn">上一页</button>
+    <button id="nextBtn" class="btn">下一页</button>
+  </div>
+  <div class="progress" id="progress"></div>
+</div>
+
+<script>
+const cards = [
+  {word:"酒窝", pinyinFront:"jiǔ wō", pinyin:"jiǔ wō", english:"dimple",
+   sentence:"妹妹笑的时候脸上有可爱的酒窝。",
+   sentence_en:"My younger sister has cute dimples when she smiles."},
+  {word:"年纪", pinyinFront:"nián jì", pinyin:"nián jì", english:"age",
+   sentence:"奶奶年纪大了，走路比较慢。",
+   sentence_en:"Grandma is old and walks more slowly."},
+  {word:"鬼脸", pinyinFront:"guǐ liǎn", pinyin:"guǐ liǎn", english:"pull a face",
+   sentence:"弟弟喜欢对着镜子做鬼脸。",
+   sentence_en:"My younger brother likes to make faces in front of the mirror."},
+  {word:"解释", pinyinFront:"jiě shì", pinyin:"jiě shì", english:"explain",
+   sentence:"他向老师解释迟到的原因。",
+   sentence_en:"He explained to the teacher why he was late."},
+  {word:"幼儿园", pinyinFront:"yòu ér yuán", pinyin:"yòu ér yuán", english:"kindergarten",
+   sentence:"妹妹每天去幼儿园上学。",
+   sentence_en:"My little sister goes to kindergarten every day."},
+  {word:"关键", pinyinFront:"guān jiàn", pinyin:"guān jiàn", english:"crucial",
+   sentence:"练习是学好中文的关键。",
+   sentence_en:"Practice is crucial to learn Chinese well."},
+  {word:"制造", pinyinFront:"zhì zào", pinyin:"zhì zào", english:"make",
+   sentence:"我的鞋子是日本工厂制造的。",
+   sentence_en:"My shoes were made in a Japanese factory."},
+  {word:"骑车", pinyinFront:"qí chē", pinyin:"qí chē", english:"ride a bike",
+   sentence:"我每天早上骑车去学校。",
+   sentence_en:"I ride a bike to school every morning."},
+  {word:"药水", pinyinFront:"yào shuǐ", pinyin:"yào shuǐ", english:"liquid medicine",
+   sentence:"小伤口需要用药水清洗干净。",
+   sentence_en:"Small wounds need to be cleaned with liquid medicine."},
+  {word:"勇敢", pinyinFront:"yóng gǎn", pinyin:"yóng gǎn", english:"brave",
+   sentence:"遇到困难时要勇敢面对。",
+   sentence_en:"We should face difficulties bravely."},
+  {word:"刮目相看", pinyinFront:"guā mù xiāng kàn", pinyin:"guā mù xiāng kàn", english:"see somebody in a new light",
+   sentence:"他的进步让大家刮目相看。",
+   sentence_en:"His progress made everyone see him in a new light."},
+  {word:"忍俊不禁", pinyinFront:"rěn jùn bù jīn", pinyin:"rěn jùn bù jīn", english:"cannot help laughing",
+   sentence:"班长说的笑话让大家忍俊不禁。",
+   sentence_en:"The class monitor's joke made everyone burst into laughter."}
+];
+
+let idx = 0;
+let showingBack = false;
+
+const frame = document.getElementById('card-frame');
+const progress = document.getElementById('progress');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+
+function renderCard(i){
+  const c = cards[i];
+  frame.innerHTML = `
+    <div id="card" class="card" role="group" aria-roledescription="flippable card">
+      <div class="side front" id="front-side">
+        <div class="top-deco" style="justify-content:flex-end;">
+          <button class="speaker-btn" id="front-speak" title="读出拼音" aria-label="读出拼音">🔊</button>
+        </div>
+        <div style="flex:1;display:flex;align-items:center;justify-content:center;flex-direction:column;">
+          <div class="pinyin" id="pinyin-text">${c.pinyinFront}</div>
+        </div>
+        <div class="bottom-right">第一课 一道成语题<br/><span style="font-size:12px;color:#999">第 ${i+1} 张 / 共 ${cards.length} 张</span></div>
+      </div>
+
+      <div class="side back" id="back-side" aria-hidden="true">
+        <div style="text-align:center;">
+          <div class="word">${c.word}</div>
+          <div class="pinyin-ref">${c.pinyin}</div>
+          <div class="english">${c.english}</div>
+          <div class="sentence-row">
+            <div class="sentence">${c.sentence}</div>
+            <div class="sentence-actions">
+              <button class="sentence-play" id="sentence-speak" title="读出造句" aria-label="读出造句">🔈</button>
+            </div>
+          </div>
+          <div class="sentence-engl">${c.sentence_en}</div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  progress.textContent = `第 ${i+1} 张 / 共 ${cards.length} 张`;
+
+  const cardEl = document.getElementById('card');
+  const frontSpeak = document.getElementById('front-speak');
+  const sentenceSpeak = document.getElementById('sentence-speak');
+
+  cardEl.addEventListener('click', (e)=>{
+    if(e.target.closest('button')) return;
+    toggleFlip();
+  });
+
+  frontSpeak.addEventListener('click', (e)=>{
+    e.stopPropagation();
+    speakText(cards[idx].word, {lang:'zh-CN',rate:1.0});
+  });
+
+  sentenceSpeak.addEventListener('click', (e)=>{
+    e.stopPropagation();
+    speakText(cards[idx].sentence, {lang:'zh-CN',rate:0.6});
+  });
+
+  document.onkeydown = function(ev){
+    if(ev.key === 'ArrowRight') goNext();
+    if(ev.key === 'ArrowLeft') goPrev();
+    if(ev.key === ' '){ ev.preventDefault(); toggleFlip(); }
+  };
+
+  showingBack = false;
+  cardEl.classList.remove('flipped');
+  document.getElementById('back-side').setAttribute('aria-hidden','true');
+}
+
+function toggleFlip(){
+  const cardEl = document.getElementById('card');
+  if(!cardEl) return;
+  const willFlip = !showingBack;
+  if(willFlip){
+    cardEl.classList.add('flipped');
+    document.getElementById('back-side').setAttribute('aria-hidden','false');
+  } else {
+    cardEl.classList.remove('flipped');
+    document.getElementById('back-side').setAttribute('aria-hidden','true');
+  }
+  showingBack = willFlip;
+  playDing();
+}
+
+function goNext(){
+  idx = (idx + 1) % cards.length;
+  renderCard(idx);
+  showingBack = false;
+  playDing();
+}
+
+function goPrev(){
+  idx = (idx - 1 + cards.length) % cards.length;
+  renderCard(idx);
+  showingBack = false;
+  playDing();
+}
+
+prevBtn.addEventListener('click', (e)=>{ e.preventDefault(); goPrev(); });
+nextBtn.addEventListener('click', (e)=>{ e.preventDefault(); goNext(); });
+
+function speakText(text, opts={}){
+  const utter = new SpeechSynthesisUtterance();
+  utter.text = text;
+  utter.lang = opts.lang || 'zh-CN';
+  utter.rate = opts.rate || 1.0;
+  const voices = speechSynthesis.getVoices();
+  if(voices && voices.length){
+    let v = voices.find(v=>/zh|chinese/i.test(v.lang) || /zh/i.test(v.name));
+    if(v) utter.voice = v;
+  }
+  speechSynthesis.cancel();
+  speechSynthesis.speak(utter);
+}
+
+let audioCtx = null;
+function playDing(){
+  try{
+    if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const ctx = audioCtx;
+    const o = ctx.createOscillator();
+    const g = ctx.createGain();
+    o.type = 'sine';
+    o.frequency.value = 1000;
+    g.gain.value = 0.0001;
+    o.connect(g);
+    g.connect(ctx.destination);
+    const now = ctx.currentTime;
+    g.gain.linearRampToValueAtTime(0.12, now + 0.01);
+    o.start(now);
+    g.gain.exponentialRampToValueAtTime(0.0001, now + 0.35);
+    o.stop(now + 0.36);
+  }catch(e){ /* ignore */ }
+}
+
+renderCard(idx);
+</script>
+</body>
+</html>

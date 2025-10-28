@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>汶莱小学高级华文 五年级 生词闪卡</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+            width: 100%;
+            max-width: 1000px;
+        }
+        
+        .chinese-title {
+            font-family: "KaiTi", "楷体", "STKaiti", serif;
+            font-size: 20pt;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .english-title {
+            font-family: Arial, sans-serif;
+            font-size: 16pt;
+            color: #34495e;
+            margin-bottom: 20px;
+        }
+        
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            width: 100%;
+            max-width: 1000px;
+            margin-bottom: 40px;
+        }
+        
+        .lesson-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            height: 180px;
+            justify-content: center;
+        }
+        
+        .lesson-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .lesson-card.upper {
+            background: linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 100%);
+            border-left: 5px solid #00bcd4;
+        }
+        
+        .lesson-card.lower {
+            background: linear-gradient(135deg, #fce4ec 0%, #f8bbd9 100%);
+            border-left: 5px solid #e91e63;
+        }
+        
+        .lesson-title {
+            font-family: "KaiTi", "楷体", "STKaiti", serif;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+        
+        .lesson-subtitle {
+            font-size: 14px;
+            color: #7f8c8d;
+        }
+        
+        .lesson-number {
+            font-size: 14px;
+            color: #7f8c8d;
+            margin-top: 10px;
+        }
+        
+        .footer {
+            margin-top: auto;
+            text-align: right;
+            width: 100%;
+            max-width: 1000px;
+            padding: 20px;
+            font-family: "KaiTi", "楷体", "STKaiti", serif;
+            font-size: 14pt;
+            color: #7f8c8d;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+            
+            .lesson-card {
+                height: 150px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1 class="chinese-title">汶莱小学高级华文 五年级 生词闪卡</h1>
+        <h2 class="english-title">CHMS Primary Chinese Vocabulary Cards</h2>
+    </div>
+    
+    <div class="container">
+        <!-- 五年级上册课程 -->
+        <div class="lesson-card upper" onclick="openLesson('1五年级上册第一课  我的弟弟.html')">
+            <div class="lesson-title">我的弟弟</div>
+            <div class="lesson-subtitle">五年级上册 第一课</div>
+            <div class="lesson-number">12个生词</div>
+        </div>
+        
+        <div class="lesson-card upper" onclick="openLesson('2五年级上册第二课 贝多芬的故事.html')">
+            <div class="lesson-title">贝多芬的故事</div>
+            <div class="lesson-subtitle">五年级上册 第二课</div>
+            <div class="lesson-number">12个生词</div>
+        </div>
+        
+        <div class="lesson-card upper" onclick="openLesson('3五年级上册第三课  想要.html')">
+            <div class="lesson-title">想要</div>
+            <div class="lesson-subtitle">五年级上册 第三课</div>
+            <div class="lesson-number">10个生词</div>
+        </div>
+        
+        <div class="lesson-card upper" onclick="openLesson('4五年级上册第四课  美丽的城市.html')">
+            <div class="lesson-title">美丽的城市</div>
+            <div class="lesson-subtitle">五年级上册 第四课</div>
+            <div class="lesson-number">15个生词</div>
+        </div>
+        
+        <div class="lesson-card upper" onclick="openLesson('5五年级上册 第六课 给小主人的信.html')">
+            <div class="lesson-title">给小主人的信</div>
+            <div class="lesson-subtitle">五年级上册 第六课</div>
+            <div class="lesson-number">11个生词</div>
+        </div>
+        
+        <div class="lesson-card upper" onclick="openLesson('6五年级上册 第八课  蝙蝠和雷达.html')">
+            <div class="lesson-title">蝙蝠和雷达</div>
+            <div class="lesson-subtitle">五年级上册 第八课</div>
+            <div class="lesson-number">13个生词</div>
+        </div>
+        
+        <!-- 五年级下册课程 -->
+        <div class="lesson-card lower" onclick="openLesson('7五年级下册 第一课 奇怪的大石头.html')">
+            <div class="lesson-title">奇怪的大石头</div>
+            <div class="lesson-subtitle">五年级下册 第一课</div>
+            <div class="lesson-number">14个生词</div>
+        </div>
+        
+        <div class="lesson-card lower" onclick="openLesson('8五年级下册 第二课 给中国朋友的一封信.html')">
+            <div class="lesson-title">给中国朋友的一封信</div>
+            <div class="lesson-subtitle">五年级下册 第二课</div>
+            <div class="lesson-number">18个生词</div>
+        </div>
+        
+        <div class="lesson-card lower" onclick="openLesson('9五年级下册 第三课  清明上河图.html')">
+            <div class="lesson-title">清明上河图</div>
+            <div class="lesson-subtitle">五年级下册 第三课</div>
+            <div class="lesson-number">17个生词</div>
+        </div>
+        
+        <div class="lesson-card lower" onclick="openLesson('10五年级下册 第四课 猫.html')">
+            <div class="lesson-title">猫</div>
+            <div class="lesson-subtitle">五年级下册 第四课</div>
+            <div class="lesson-number">16个生词</div>
+        </div>
+        
+        <div class="lesson-card lower" onclick="openLesson('11五年级下册 第五课 嫦娥奔月.html')">
+            <div class="lesson-title">嫦娥奔月</div>
+            <div class="lesson-subtitle">五年级下册 第五课</div>
+            <div class="lesson-number">14个生词</div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        2025年 贝荣彩老师设计
+    </div>
+
+    <script>
+        function openLesson(filename) {
+            // 在新标签页中打开对应的HTML文件
+            window.open(filename, '_blank');
+        }
+    </script>
+</body>
+</html>

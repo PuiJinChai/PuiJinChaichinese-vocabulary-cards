@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>下册 第四课 — 猫 字卡</title>
+  <style>
+    :root{
+      --bg1: #fff6fb;
+      --bg2: #f0fbff;
+      --card:#fff;
+      --accent:#ffdfe8;
+      --green:#2e8b57;
+      --muted:#666;
+      --card-radius:16px;
+      --card-shadow: 0 8px 20px rgba(34,34,34,0.12);
+    }
+    html,body{height:100%;margin:0;font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; background:linear-gradient(180deg,var(--bg1) 0%, var(--bg2) 100%); color:#222;-webkit-text-size-adjust:none;}
+    .wrap{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:18px;gap:12px}
+
+    /* card frame */
+    .card-frame{width:820px;max-width:96vw;min-height:560px;display:flex;align-items:center;justify-content:center}
+    .card{width:100%;max-width:820px;height:540px;background:var(--card);border-radius:var(--card-radius);box-shadow:var(--card-shadow);position:relative;perspective:1200px;overflow:visible}
+    .inner{position:relative;width:100%;height:100%;border-radius:inherit;transform-style:preserve-3d;transition:transform 600ms cubic-bezier(.2,.9,.3,1)}
+    .flipped .inner{transform:rotateY(180deg)}
+
+    .side{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;box-sizing:border-box;backface-visibility:hidden;border-radius:inherit}
+    .front{background:linear-gradient(135deg,var(--accent),#fff);}
+    .back{transform:rotateY(180deg);font-family: "KaiTi","DFKai-SB", 'STKaiti', serif;background:linear-gradient(180deg,#ffffff,#fffaf0);}
+
+    /* pinyin */
+    .pinyin{font-size:7.5vw;max-font-size:72px;font-weight:700;text-transform:lowercase;line-height:1;margin:6px 0;font-family: 'Helvetica Neue', Arial, sans-serif}
+    /* ensure reasonable min/max */
+    .pinyin{font-size:calc(28px + 3.2vw);max-width:90%;text-align:center;letter-spacing:4px;color:#222}
+
+    /* term and details */
+    .term{font-size:calc(18px + 1.8vw);font-weight:700;margin-bottom:6px}
+    .english{font-size:calc(12px + 1.2vw);color:var(--green);margin-bottom:10px;font-family: 'KaiTi','STKaiti',serif}
+    .sentence{font-size:calc(12px + 0.9vw);color:#111;text-align:center;line-height:1.4;margin-bottom:6px}
+    .sentence-en{font-size:calc(10px + 0.9vw);color:#3a3;text-align:center;margin-top:6px}
+
+    .speaker-btn{width:60px;height:60px;border-radius:50%;display:inline-grid;place-items:center;background:#fff;border:2px solid #ffdce6;box-shadow:0 6px 14px rgba(0,0,0,0.06);cursor:pointer;touch-action:manipulation}
+    .speaker-btn:active{transform:scale(.98)}
+    .speaker-icon{width:26px;height:26px}
+
+    .meta{position:absolute;right:14px;bottom:12px;font-size:14px;color:var(--muted)}
+
+    /* controls */
+    .controls{width:100%;max-width:820px;display:flex;justify-content:space-between;gap:12px;padding:0 4px;box-sizing:border-box}
+    .btn{flex:1;padding:14px;border-radius:12px;border:none;background:#fff;font-size:16px;box-shadow:0 6px 12px rgba(0,0,0,0.06);cursor:pointer}
+    .btn:disabled{opacity:.45;cursor:not-allowed}
+    .btn-compact{flex:0 0 120px}
+
+    /* mobile tweaks */
+    @media (max-width:520px){
+      .card{height:68vh;min-height:420px}
+      .speaker-btn{width:52px;height:52px}
+      .meta{font-size:12px}
+      .controls{gap:8px}
+      .btn{padding:12px;font-size:15px}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card-frame">
+      <div id="card" class="card" tabindex="0" aria-live="polite" role="application">
+        <div id="inner" class="inner">
+          <!-- front side -->
+          <div class="side front" id="frontSide">
+            <div style="text-align:center;width:100%">
+              <div class="pinyin" id="pinyin">xìng gé</div>
+              <div style="height:14px"></div>
+              <button class="speaker-btn" id="frontSpeaker" title="播放中文读音" aria-label="播放中文读音" type="button">
+                <svg class="speaker-icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="#ff6fa3" d="M3 10v4h4l5 5V5L7 10H3z"/></svg>
+              </button>
+            </div>
+            <div class="meta" id="lessonTag">下册 第四课 猫</div>
+          </div>
+
+          <!-- back side -->
+          <div class="side back" id="backSide">
+            <div style="text-align:center;max-width:92%">
+              <div class="term" id="term">性格</div>
+              <div class="english" id="eng">character</div>
+
+              <div style="height:6px"></div>
+              <div class="sentence-row" style="display:flex;align-items:center;justify-content:center;gap:12px">
+                <div class="sentence" id="sentence">小丽性格内向，平时不爱说话。</div>
+                <button class="speaker-btn" id="backSpeaker" title="朗读造句" aria-label="朗读造句" type="button">
+                  <svg class="speaker-icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="#ffd166" d="M3 10v4h4l5 5V5L7 10H3z"/></svg>
+                </button>
+              </div>
+
+              <div class="sentence-en" id="sentenceEn">Xiaoli is introverted and usually doesn’t talk much.</div>
+            </div>
+            <div class="meta" id="lessonTagBack">下册 第四课 猫</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="controls" role="navigation" aria-label="翻页控制">
+      <button id="prevBtn" class="btn btn-compact">← 上一页</button>
+      <button id="nextBtn" class="btn btn-compact">下一页 →</button>
+    </div>
+  </div>
+
+  <script>
+    // Cards data (confirmed sentences & translations)
+    const cards = [
+      {word:'性格', pinyin:'xìng gé', english:'character', sentence_cn:'小丽性格内向，平时不爱说话。', sentence_en:"Xiaoli is introverted and usually doesn’t talk much."},
+      {word:'的确', pinyin:'dí què', english:'indeed', sentence_cn:'这只猫的确很可爱。', sentence_en:'This cat is indeed very cute.'},
+      {word:'贪玩', pinyin:'tān wán', english:'love too much to play', sentence_cn:'志明很贪玩，常忘了做功课。', sentence_en:'Zhiming loves to play and often forgets to do his homework.'},
+      {word:'响动', pinyin:'xiǎng dòng', english:'sound / noise', sentence_cn:'夜里厨房有响动，我去看了一下。', sentence_en:'There was a sound in the kitchen at night, so I went to take a look.'},
+      {word:'温柔', pinyin:'wēn róu', english:'gentle', sentence_cn:'妈妈温柔地抱着妹妹。', sentence_en:'Mother gently held my younger sister.'},
+      {word:'变化多端', pinyin:'biàn huà duō duān', english:'changing', sentence_cn:'最近天气变化多端，最好带把伞。', sentence_en:"The weather changes a lot recently; it's best to bring an umbrella."},
+      {word:'粗细', pinyin:'cū xì', english:'thickness', sentence_cn:'这根绳子的粗细正好适合玩。', sentence_en:'The thickness of this rope is just right for playing.'},
+      {word:'淘气', pinyin:'táo qì', english:'naughty', sentence_cn:'小猫很淘气，总是爬上桌子。', sentence_en:'The kitten is naughty and always climbs on the table.'},
+      {word:'线团', pinyin:'xiàn tuán', english:'ball of string', sentence_cn:'小猫很贪玩，总是追着线团跑。', sentence_en:'The kitten is very playful and always chases the ball of string.'},
+      {word:'胆子', pinyin:'dǎn zi', english:'courage', sentence_cn:'兔子的胆子很小。', sentence_en:'The rabbit is very timid.'},
+      {word:'秋千', pinyin:'qiū qiān', english:'swing', sentence_cn:'爷爷有时会陪我去公园荡秋千。', sentence_en:'Grandpa sometimes accompanies me to the park to play on the swing.'},
+      {word:'决定', pinyin:'jué dìng', english:'decide', sentence_cn:'我们决定养一只小猫。', sentence_en:'We decided to raise a kitten.'},
+      {word:'无忧无虑', pinyin:'wú yōu wú lǜ', english:'a carefree type without a single worry', sentence_cn:'我无忧无虑地在海边度假。', sentence_en:'I am enjoying a carefree vacation by the seaside.'},
+      {word:'尽职', pinyin:'jìn zhí', english:'diligence', sentence_cn:'爸爸是位尽职的经理，受到公司的表扬。', sentence_en:'Dad is a responsible manager who has been praised by the company.'},
+      {word:'没完没了', pinyin:'méi wán méi liǎo', english:'endless', sentence_cn:'弟弟只要拿到手机，就会打电动打个没完没了。', sentence_en:'Once my brother gets the phone, he keeps playing games endlessly.'},
+      {word:'生气勃勃', pinyin:'shēng qì bó bó', english:'full of energy / vitality', sentence_cn:'春天来了，花园里的花朵生气勃勃。', sentence_en:'Spring has arrived, and the flowers in the garden are full of life.'}
+    ];
+
+    // elements
+    const cardEl = document.getElementById('card');
+    const inner = document.getElementById('inner');
+    const pinyinEl = document.getElementById('pinyin');
+    const termEl = document.getElementById('term');
+    const engEl = document.getElementById('eng');
+    const sentenceEl = document.getElementById('sentence');
+    const sentenceEnEl = document.getElementById('sentenceEn');
+    const frontSpeaker = document.getElementById('frontSpeaker');
+    const backSpeaker = document.getElementById('backSpeaker');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+
+    let idx = 0;
+    let flipped = false;
+
+    // Web Audio Context for ding sound
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    let audioCtx = null;
+    function playDing(){
+      try{
+        if(!audioCtx) audioCtx = new AudioContext();
+        const o = audioCtx.createOscillator();
+        const g = audioCtx.createGain();
+        o.type = 'sine';
+        o.frequency.setValueAtTime(880, audioCtx.currentTime);
+        g.gain.setValueAtTime(0, audioCtx.currentTime);
+        g.gain.linearRampToValueAtTime(0.12, audioCtx.currentTime + 0.01);
+        o.connect(g);
+        g.connect(audioCtx.destination);
+        o.start();
+        o.frequency.exponentialRampToValueAtTime(1320, audioCtx.currentTime + 0.12);
+        g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.4);
+        o.stop(audioCtx.currentTime + 0.45);
+      }catch(e){ /* ignore */ }
+    }
+
+    function render(){
+      const c = cards[idx];
+      pinyinEl.textContent = c.pinyin.toLowerCase();
+      termEl.textContent = c.word;
+      engEl.textContent = c.english;
+      sentenceEl.textContent = c.sentence_cn;
+      sentenceEnEl.textContent = c.sentence_en;
+      // always front when navigating
+      if(flipped) toggleFlip(false);
+      updateNav();
+    }
+
+    function updateNav(){
+      prevBtn.disabled = (idx===0);
+      nextBtn.disabled = (idx===cards.length-1);
+    }
+
+    function speakChinese(text, rate=1.0){
+      if(!window.speechSynthesis) return;
+      window.speechSynthesis.cancel();
+      const u = new SpeechSynthesisUtterance(text);
+      u.lang = 'zh-CN';
+      u.rate = rate;
+      window.speechSynthesis.speak(u);
+    }
+
+    function toggleFlip(doFlip=true){
+      flipped = doFlip;
+      if(flipped) cardEl.classList.add('flipped');
+      else cardEl.classList.remove('flipped');
+    }
+
+    // Card click to flip, but not when speaker clicked
+    cardEl.addEventListener('click', (e)=>{
+      if(e.target.closest('.speaker-btn')) return;
+      toggleFlip(!flipped);
+    });
+
+    // front speaker reads word
+    frontSpeaker.addEventListener('click',(e)=>{
+      e.stopPropagation();
+      const c = cards[idx];
+      speakChinese(c.word, 1.0);
+    });
+
+    // back speaker reads sentence (rate 0.6)
+    backSpeaker.addEventListener('click',(e)=>{
+      e.stopPropagation();
+      const c = cards[idx];
+      speakChinese(c.sentence_cn, 0.6);
+    });
+
+    // prev/next navigation with ding sound and always show front after nav
+    prevBtn.addEventListener('click',(e)=>{
+      if(idx>0){
+        idx = Math.max(0, idx-1);
+        render();
+        playDing();
+      }
+    });
+    nextBtn.addEventListener('click',(e)=>{
+      if(idx<cards.length-1){
+        idx = Math.min(cards.length-1, idx+1);
+        render();
+        playDing();
+      }
+    });
+
+    // keyboard nav for accessibility
+    cardEl.addEventListener('keydown',(e)=>{
+      if(e.key === 'ArrowRight') nextBtn.click();
+      if(e.key === 'ArrowLeft') prevBtn.click();
+      if(e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        toggleFlip(!flipped);
+      }
+    });
+
+    // init
+    render();
+  </script>
+</body>
+</html>

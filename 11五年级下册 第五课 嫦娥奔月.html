@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>第五课 嫦娥奔月 生词卡</title>
+<style>
+  :root{
+    --bg:#FFF7FB;
+    --card:#fff;
+    --accent:#FF9CCF;
+    --muted:#666;
+    --green:#2E8B57;
+  }
+  body{
+    margin:0;
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    background: linear-gradient(180deg,#FFF7FB 0%, #FFF0F5 100%);
+    display:flex;
+    min-height:100vh;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+  }
+  .app{
+    width:100%;
+    max-width:560px;
+  }
+  .card-area{
+    display:flex;
+    justify-content:center;
+  }
+  .card{
+    width:100%;
+    max-width:520px;
+    height:360px;
+    border-radius:18px;
+    background:var(--card);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+    position:relative;
+    perspective:1400px;
+    overflow:visible;
+  }
+  .flipper{
+    width:100%;
+    height:100%;
+    transform-style:preserve-3d;
+    transition: transform 600ms ease;
+    position:relative;
+  }
+  .flipped{ transform: rotateY(180deg); }
+  .face{
+    position:absolute;
+    inset:0;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    backface-visibility:hidden;
+    padding:20px;
+    box-sizing:border-box;
+    border-radius:18px;
+  }
+  .front{
+    background: linear-gradient(180deg, #fff 0%, #FFF8FB 100%);
+  }
+  .pinyin{
+    font-size:70px;
+    font-weight:700;
+    letter-spacing:2px;
+    text-transform:lowercase;
+    margin-bottom:18px;
+    text-align:center;
+  }
+  .front .speaker{
+    background:linear-gradient(90deg,#FFD1E8,#FF9CCF);
+    border:none;
+    padding:12px;
+    border-radius:999px;
+    box-shadow:0 6px 18px rgba(255,156,207,0.25);
+    color:white;
+    font-weight:700;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .corner{
+    position:absolute;
+    right:14px;
+    bottom:12px;
+    font-size:16px;
+    color:var(--muted);
+    background:rgba(255,255,255,0.8);
+    padding:6px 10px;
+    border-radius:8px;
+    font-weight:700;
+  }
+  .back{
+    transform: rotateY(180deg);
+    background: linear-gradient(180deg,#FFFDF6,#F7FFF6);
+  }
+  .chinese-word{
+    font-size:30px;
+    font-family: "KaiTi","楷体","STKaiti",serif;
+    font-weight:700;
+    color:#000;
+    margin-bottom:8px;
+  }
+  .english-meaning{
+    font-size:20px;
+    color:var(--green);
+    margin-bottom:8px;
+    font-weight:700;
+  }
+  .sentence-row{
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+    width:100%;
+  }
+  .sentence{
+    font-size:16px;
+    font-family: "KaiTi","楷体","STKaiti",serif;
+    color:#222;
+    line-height:1.4;
+    flex:1;
+  }
+  .sentence .en{
+    font-size:14px;
+    color:#444;
+    margin-top:8px;
+  }
+  .sentence-speaker{
+    background:#FFD9F0;
+    border-radius:10px;
+    padding:8px;
+    border:none;
+    font-weight:700;
+    cursor:pointer;
+  }
+  .nav{
+    margin-top:14px;
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+  }
+  .nav button{
+    flex:1;
+    padding:10px;
+    border-radius:10px;
+    border:none;
+    font-weight:700;
+    cursor:pointer;
+    background:linear-gradient(90deg,#FFD1E8,#FF9CCF);
+    color:#fff;
+  }
+  .small{
+    font-size:12px;
+    color:#666;
+    margin-top:8px;
+    text-align:center;
+  }
+  button { -webkit-tap-highlight-color: transparent; }
+  @media (max-width:420px){
+    .card{ height:420px; }
+    .pinyin{ font-size:56px; }
+  }
+</style>
+</head>
+<body>
+<div class="app" role="application" aria-label="生词翻卡">
+  <div class="card-area">
+    <div class="card" id="card">
+      <div class="flipper" id="flipper">
+        <!-- front -->
+        <div class="face front" id="frontFace">
+          <div style="text-align:center; width:100%;">
+            <div class="pinyin" id="pinyinText">mào yān</div>
+            <div style="display:flex; justify-content:center;">
+              <button class="speaker" id="frontSpeaker" title="朗读词语">
+                🔊 读词
+              </button>
+            </div>
+          </div>
+          <div class="corner" id="cornerLabel">第五课 嫦娥奔月</div>
+        </div>
+        <!-- back -->
+        <div class="face back" id="backFace">
+          <div style="width:100%;">
+            <div class="chinese-word" id="chineseWord">冒烟</div>
+            <div class="english-meaning" id="englishMeaning">give off smoke / be smoking</div>
+            <div class="sentence-row" style="margin-top:8px;">
+              <div style="flex:1;">
+                <div class="sentence" id="sentenceText">听到这个消息，他气得快要冒烟了。</div>
+                <div class="en" id="sentenceEn">When he heard the news, he was so angry that smoke almost came out of him.</div>
+              </div>
+              <div style="width:70px; display:flex; align-items:flex-start; justify-content:center;">
+                <button class="sentence-speaker" id="sentenceSpeaker" title="朗读造句">🔈</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="nav" style="margin-top:16px;">
+    <button id="prevBtn">上一页</button>
+    <button id="nextBtn">下一页</button>
+  </div>
+  <div class="small">点击卡片空白处翻面；点击喇叭只朗读不翻页。</div>
+</div>
+
+<script>
+const cards = [
+  { word:"冒烟", pinyin:"mào yān", meaning:"give off smoke / be smoking", sentence:"听到这个消息，他气得快要冒烟了。", sentenceEn:"When he heard the news, he was so angry that smoke almost came out of him." },
+  { word:"学艺", pinyin:"xué yì", meaning:"learn a craft / learn skills", sentence:"他的书法写得很好，很多人都去拜师学艺。", sentenceEn:"His calligraphy is very good, and many people go to learn from him." },
+  { word:"据说", pinyin:"jù shuō", meaning:"it is said / reportedly", sentence:"据说那座山上有一座古庙。", sentenceEn:"It is said there is an old temple on that mountain." },
+  { word:"打猎", pinyin:"dǎ liè", meaning:"hunt", sentence:"冬天到了，叔叔去山里打猎。", sentenceEn:"Winter came, and uncle went to the mountains to hunt." },
+  { word:"暂时", pinyin:"zàn shí", meaning:"temporarily", sentence:"我们暂时住在朋友家。", sentenceEn:"We are temporarily staying at a friend's house." },
+  { word:"百宝箱", pinyin:"bǎi bǎo xiāng", meaning:"treasure chest", sentence:"孩子们在地下室找到一个百宝箱。", sentenceEn:"The children found a treasure chest in the basement." },
+  { word:"当机立断", pinyin:"dāng jī lì duàn", meaning:"act decisively / make a prompt decision", sentence:"发生火灾了，他当机立断，打破窗户救人。", sentenceEn:"When the fire broke out, he made a quick decision and broke the window to save people." },
+  { word:"牵挂", pinyin:"qiān guà", meaning:"to worry about / to be concerned about", sentence:"妈妈很牵挂在外工作的弟弟。", sentenceEn:"Mother worries about the younger brother who works away." },
+  { word:"舍不得", pinyin:"shě bu de", meaning:"reluctant to part / hate to leave", sentence:"妹妹舍不得把小猫送走。", sentenceEn:"The little sister is reluctant to send the kitten away." },
+  { word:"悲痛欲绝", pinyin:"bēi tòng yù jué", meaning:"grief-stricken / devastated", sentence:"听到母亲去世的消息，他悲痛欲绝。", sentenceEn:"When he heard the news of his mother’s death, he was heartbroken." },
+  { word:"摆设", pinyin:"bǎi shè", meaning:"ornament / decoration", sentence:"客厅里有很多漂亮的摆设。", sentenceEn:"There are many pretty decorations in the living room." },
+  { word:"呼唤", pinyin:"hū huàn", meaning:"call out / summon", sentence:"老师在操场上呼唤学生回教室。", sentenceEn:"The teacher called the students back to the classroom on the playground." },
+  { word:"吉祥", pinyin:"jí xiáng", meaning:"auspicious / lucky", sentence:"新年到了，我祝你吉祥如意！", sentenceEn:"The New Year is here, I wish you good luck and happiness!" },
+  { word:"风俗", pinyin:"fēng sú", meaning:"custom / tradition", sentence:"我们要尊重不同民族的风俗习惯。", sentenceEn:"We should respect the customs of different ethnic groups." }
+];
+
+let index=0;
+let isFlipped=false;
+const pinyinText=document.getElementById('pinyinText');
+const chineseWord=document.getElementById('chineseWord');
+const englishMeaning=document.getElementById('englishMeaning');
+const sentenceText=document.getElementById('sentenceText');
+const sentenceEn=document.getElementById('sentenceEn');
+const cornerLabel=document.getElementById('cornerLabel');
+const flipper=document.getElementById('flipper');
+const card=document.getElementById('card');
+const prevBtn=document.getElementById('prevBtn');
+const nextBtn=document.getElementById('nextBtn');
+const frontSpeaker=document.getElementById('frontSpeaker');
+const sentenceSpeaker=document.getElementById('sentenceSpeaker');
+
+function renderCard(){
+  const c=cards[index];
+  pinyinText.textContent=c.pinyin.toLowerCase();
+  cornerLabel.textContent="第五课 嫦娥奔月";
+  chineseWord.textContent=c.word;
+  englishMeaning.textContent=c.meaning;
+  sentenceText.textContent=c.sentence;
+  sentenceEn.textContent=c.sentenceEn;
+  if(isFlipped){flipper.classList.remove('flipped');isFlipped=false;}
+}
+
+function playDing(){try{const ctx=new (window.AudioContext||window.webkitAudioContext)();const o=ctx.createOscillator();const g=ctx.createGain();o.type='sine';o.frequency.setValueAtTime(1200,ctx.currentTime);g.gain.value=0;o.connect(g);g.connect(ctx.destination);g.gain.setValueAtTime(0,ctx.currentTime);g.gain.linearRampToValueAtTime(0.12,ctx.currentTime+0.001);o.start();g.gain.exponentialRampToValueAtTime(0.0001,ctx.currentTime+0.18);o.stop(ctx.currentTime+0.19);}catch(e){}}
+function speakChinese(text,rate=1.0){if(!('speechSynthesis'in window))return;const u=new SpeechSynthesisUtterance(text);u.lang='zh-CN';u.rate=rate;const voices=speechSynthesis.getVoices();for(const v of voices){if(v.lang&&v.lang.startsWith('zh')){u.voice=v;break;}}speechSynthesis.cancel();speechSynthesis.speak(u);}
+
+card.addEventListener('click',(e)=>{if(e.target.closest('button'))return;if(isFlipped){flipper.classList.remove('flipped');isFlipped=false;}else{flipper.classList.add('flipped');isFlipped=true;}playDing();});
+frontSpeaker.addEventListener('click',(e)=>{e.stopPropagation();speakChinese(cards[index].word,1.0);});
+sentenceSpeaker.addEventListener('click',(e)=>{e.stopPropagation();speakChinese(cards[index].sentence,0.6);});
+prevBtn.addEventListener('click',(e)=>{e.stopPropagation();if(index>0){index--;renderCard();}});
+nextBtn.addEventListener('click',(e)=>{e.stopPropagation();if(index<cards.length-1){index++;renderCard();}});
+document.addEventListener('keydown',(e)=>{if(e.key==='ArrowRight'){if(index<cards.length-1)index++;renderCard();}if(e.key==='ArrowLeft'){if(index>0)index--;renderCard();}});
+renderCard();
+if(typeof speechSynthesis!=='undefined'){speechSynthesis.onvoiceschanged=function(){};}
+</script>
+</body>
+</html>

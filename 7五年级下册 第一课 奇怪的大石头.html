@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>下册 第1课 — 奇怪的大石头 字卡</title>
+  <style>
+    :root{
+      --bg:#fff8fb; --card:#fff; --accent:#d0f0ff; --green:#2e8b57; --text:#222;
+      --card-radius:18px; --card-shadow:0 8px 24px rgba(34,34,34,0.12);
+    }
+    html,body{height:100%;margin:0;font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; background:linear-gradient(180deg,#f0fbff 0%, #ffffff 100%); color:var(--text)}
+    .wrap{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px}
+
+    .card-frame{width:740px;max-width:92vw;min-height:480px;display:flex;align-items:center;justify-content:center}
+    .card{width:100%;height:460px;background:var(--card);border-radius:var(--card-radius);box-shadow:var(--card-shadow);position:relative;perspective:1200px;outline:none}
+
+    .inner{position:absolute;inset:0;border-radius:inherit;transform-style:preserve-3d;transition:transform 600ms cubic-bezier(.2,.9,.3,1)}
+    .flipped .inner{transform:rotateY(180deg)}
+    .side{position:absolute;inset:0;backface-visibility:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px;box-sizing:border-box}
+
+    /* front */
+    .front{background:linear-gradient(135deg,var(--accent),#fff);border-radius:inherit}
+    .pinyin{font-size:70pt;line-height:1;letter-spacing:4px;font-weight:700;text-transform:lowercase;margin:8px 0;font-family: 'Helvetica Neue', Arial, sans-serif}
+
+    .word-meta{position:absolute;right:14px;bottom:12px;font-size:16pt;color:#555}
+
+    .speaker-btn{width:62px;height:62px;border-radius:50%;display:inline-grid;place-items:center;background:#fff;border:2px solid #d0f0ff;box-shadow:0 6px 14px rgba(0,0,0,0.06);cursor:pointer}
+    .speaker-btn:active{transform:scale(.98)}
+    .speaker-icon{width:26px;height:26px}
+
+    /* back */
+    .back{transform:rotateY(180deg);font-family: "KaiTi","DFKai-SB", 'STKaiti', serif;border-radius:inherit}
+    .term{font-size:30pt;color:#000;margin-bottom:6px}
+    .english{font-size:20pt;color:var(--green);margin-bottom:10px}
+    .sentence{font-size:16pt;color:#111;margin-bottom:8px}
+    .sentence-row{display:flex;gap:12px;align-items:center;justify-content:center}
+
+    .controls{margin-top:18px;display:flex;gap:12px;align-items:center}
+    button.nav{padding:10px 18px;border-radius:10px;border:none;background:#fff;font-size:16px;box-shadow:0 6px 12px rgba(0,0,0,0.06);cursor:pointer}
+    button.nav:disabled{opacity:.45;cursor:not-allowed}
+
+    @media (max-width:560px){.card-frame{min-height:420px}.pinyin{font-size:54pt}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card-frame">
+      <div id="card" class="card" tabindex="0" aria-live="polite">
+        <div id="inner" class="inner">
+          <div class="side front" id="frontSide">
+            <div style="text-align:center;">
+              <div class="pinyin" id="pinyin">dì zhì</div>
+              <div style="height:18px"></div>
+              <div class="speaker-btn" id="frontSpeaker" title="播放中文读音" aria-label="播放中文读音">
+                <svg class="speaker-icon" viewBox="0 0 24 24"><path fill="#33aaff" d="M3 10v4h4l5 5V5L7 10H3z"></path></svg>
+              </div>
+            </div>
+            <div class="word-meta" id="lessonTag">下册 第1课 奇怪的大石头</div>
+          </div>
+
+          <div class="side back" id="backSide">
+            <div style="text-align:center;max-width:88%;">
+              <div class="term" id="term">地质</div>
+              <div class="english" id="eng">geology</div>
+
+              <div class="sentence-row">
+                <div class="sentence" id="sentence">我们在科学课上学习地质知识。</div>
+                <div class="speaker-btn" id="backSpeaker" title="朗读造句" aria-label="朗读造句">
+                  <svg class="speaker-icon" viewBox="0 0 24 24"><path fill="#ffd166" d="M3 10v4h4l5 5V5L7 10H3z"></path></svg>
+                </div>
+              </div>
+
+              <div style="height:10px"></div>
+              <div style="font-size:15pt;color:#444;" id="sentenceEn">We learn about geology in science class.</div>
+            </div>
+            <div class="word-meta" id="lessonTagBack">下册 第1课 奇怪的大石头</div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="controls">
+      <button id="prevBtn" class="nav">← 上一页</button>
+      <button id="nextBtn" class="nav">下一页 →</button>
+    </div>
+  </div>
+
+  <script>
+    const cards = [
+      {word:'地质', pinyin:'dì zhì', english:'geology', sentence_cn:'我们在科学课上学习地质知识。', sentence_en:'We learn about geology in science class.'},
+      {word:'伙伴', pinyin:'huǒ bàn', english:'buddy', sentence_cn:'我和小明是好伙伴。', sentence_en:'Xiaoming and I are good buddies.'},
+      {word:'孤零零', pinyin:'gū líng líng', english:'solitary', sentence_cn:'他下课时孤零零地待在课室。', sentence_en:'He stayed alone in the classroom after class.'},
+      {word:'英国', pinyin:'yīng guó', english:'United Kingdom', sentence_cn:'我的叔叔住在英国。', sentence_en:'My uncle lives in the United Kingdom.'},
+      {word:'推移', pinyin:'tuī yí', english:'transition', sentence_cn:'时间慢慢推移，我们都长大了。', sentence_en:'As time passes, we all grow up.'},
+      {word:'考察', pinyin:'kǎo chá', english:'investigate', sentence_cn:'科学家去北极考察冰川。', sentence_en:'Scientists went to the Arctic to investigate glaciers.'},
+      {word:'冰川', pinyin:'bīng chuān', english:'glacier', sentence_cn:'冰川在阳光下闪闪发光。', sentence_en:'The glacier shines under the sunlight.'},
+      {word:'故乡', pinyin:'gù xiāng', english:'hometown', sentence_cn:'我的故乡在美里。', sentence_en:'My hometown is in Miri.'},
+      {word:'代替', pinyin:'dài tì', english:'replace', sentence_cn:'我代替朋友参加篮球比赛。', sentence_en:'I take my friend\'s place in the basketball game.'},
+      {word:'系列', pinyin:'xì liè', english:'series', sentence_cn:'这是一系列关于地球的纪录片。', sentence_en:'This is a series of documentaries about the Earth.'},
+      {word:'困扰', pinyin:'kùn rǎo', english:'be perplexed with', sentence_cn:'这个问题困扰了我很久。', sentence_en:'This problem has troubled me for a long time.'},
+      {word:'见多识广', pinyin:'jiàn duō shí guǎng', english:'experienced and knowledgeable', sentence_cn:'爷爷见多识广，知道很多事情。', sentence_en:'Grandpa is experienced and knowledgeable.'},
+      {word:'格格不入', pinyin:'gé gé bú rù', english:'incompatible with', sentence_cn:'他穿的衣服和今天的场合格格不入。', sentence_en:'His clothes don\'t match today\'s occasion.'},
+      {word:'迎刃而解', pinyin:'yíng rèn ér jiě', english:'overcome difficulties', sentence_cn:'找对方法，问题就能迎刃而解。', sentence_en:'If we find the right way, the problem can be easily solved.'}
+    ];
+
+    // elements
+    const cardEl = document.getElementById('card');
+    const pinyinEl = document.getElementById('pinyin');
+    const termEl = document.getElementById('term');
+    const engEl = document.getElementById('eng');
+    const sentenceEl = document.getElementById('sentence');
+    const sentenceEnEl = document.getElementById('sentenceEn');
+    const frontSpeaker = document.getElementById('frontSpeaker');
+    const backSpeaker = document.getElementById('backSpeaker');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+
+    let idx = 0;
+    let flipped = false;
+
+    function render(){
+      const c = cards[idx];
+      pinyinEl.textContent = c.pinyin.toLowerCase();
+      termEl.textContent = c.word;
+      engEl.textContent = c.english;
+      sentenceEl.textContent = c.sentence_cn;
+      sentenceEnEl.textContent = c.sentence_en;
+      // always show front when navigating
+      if(flipped) toggleFlip(false);
+      updateNav();
+    }
+
+    function updateNav(){
+      prevBtn.disabled = (idx===0);
+      nextBtn.disabled = (idx===cards.length-1);
+    }
+
+    function speakChinese(text, rate=1.0){
+      if(!window.speechSynthesis) return;
+      window.speechSynthesis.cancel();
+      const u = new SpeechSynthesisUtterance(text);
+      u.lang = 'zh-CN';
+      u.rate = rate;
+      window.speechSynthesis.speak(u);
+    }
+
+    function toggleFlip(doFlip=true){
+      flipped = doFlip;
+      if(flipped) cardEl.classList.add('flipped');
+      else cardEl.classList.remove('flipped');
+    }
+
+    // Click on card (not speaker) to flip
+    cardEl.addEventListener('click', (e)=>{
+      if(e.target.closest('.speaker-btn')) return;
+      toggleFlip(!flipped);
+    });
+
+    // front speaker: read the word (standard Chinese)
+    frontSpeaker.addEventListener('click',(e)=>{
+      e.stopPropagation();
+      const c = cards[idx];
+      speakChinese(c.word, 1.0);
+    });
+
+    // back speaker: read the sentence at rate 0.6
+    backSpeaker.addEventListener('click',(e)=>{
+      e.stopPropagation();
+      const c = cards[idx];
+      speakChinese(c.sentence_cn, 0.6);
+    });
+
+    prevBtn.addEventListener('click',(e)=>{
+      idx = Math.max(0, idx-1);
+      render();
+    });
+    nextBtn.addEventListener('click',(e)=>{
+      idx = Math.min(cards.length-1, idx+1);
+      render();
+    });
+
+    // keyboard navigation
+    cardEl.addEventListener('keydown',(e)=>{
+      if(e.key === 'ArrowRight') nextBtn.click();
+      if(e.key === 'ArrowLeft') prevBtn.click();
+      if(e.key === 'Enter' || e.key === ' ') toggleFlip(!flipped);
+    });
+
+    // init
+    render();
+  </script>
+</body>
+</html>

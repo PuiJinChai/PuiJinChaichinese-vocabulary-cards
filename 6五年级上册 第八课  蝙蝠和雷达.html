@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>上册 第八课 — 蝙蝠和雷达 字卡</title>
+  <style>
+    :root{
+      --bg:#fff8fb; --card:#fff; --accent:#ffdfe8; --green:#2e8b57; --text:#222;
+      --card-radius:18px; --card-shadow:0 8px 24px rgba(34,34,34,0.12);
+    }
+    html,body{height:100%;margin:0;font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; background:linear-gradient(180deg,#fffafc 0%, #f7fcff 100%); color:var(--text)}
+    .wrap{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px}
+
+    .card-frame{width:740px;max-width:92vw;min-height:480px;display:flex;align-items:center;justify-content:center}
+    .card{width:100%;height:460px;background:var(--card);border-radius:var(--card-radius);box-shadow:var(--card-shadow);position:relative;perspective:1200px;outline:none}
+
+    .inner{position:absolute;inset:0;border-radius:inherit;transform-style:preserve-3d;transition:transform 600ms cubic-bezier(.2,.9,.3,1)}
+    .flipped .inner{transform:rotateY(180deg)}
+    .side{position:absolute;inset:0;backface-visibility:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px;box-sizing:border-box}
+
+    /* front */
+    .front{background:linear-gradient(135deg,var(--accent),#fff);border-radius:inherit}
+    .pinyin{font-size:70pt;line-height:1;letter-spacing:4px;font-weight:700;text-transform:lowercase;margin:8px 0;font-family: 'Helvetica Neue', Arial, sans-serif}
+
+    .word-meta{position:absolute;right:14px;bottom:12px;font-size:16pt;color:#555}
+
+    .speaker-btn{width:62px;height:62px;border-radius:50%;display:inline-grid;place-items:center;background:#fff;border:2px solid #ffdce6;box-shadow:0 6px 14px rgba(0,0,0,0.06);cursor:pointer}
+    .speaker-btn:active{transform:scale(.98)}
+    .speaker-icon{width:26px;height:26px}
+
+    /* back */
+    .back{transform:rotateY(180deg);font-family: \"KaiTi\",\"DFKai-SB\", 'STKaiti', serif;border-radius:inherit}
+    .term{font-size:30pt;color:#000;margin-bottom:6px}
+    .english{font-size:20pt;color:var(--green);margin-bottom:10px}
+    .sentence{font-size:16pt;color:#111;margin-bottom:8px}
+    .sentence-row{display:flex;gap:12px;align-items:center;justify-content:center}
+
+    .controls{margin-top:18px;display:flex;gap:12px;align-items:center}
+    button.nav{padding:10px 18px;border-radius:10px;border:none;background:#fff;font-size:16px;box-shadow:0 6px 12px rgba(0,0,0,0.06);cursor:pointer}
+    button.nav:disabled{opacity:.45;cursor:not-allowed}
+
+    @media (max-width:560px){.card-frame{min-height:420px}.pinyin{font-size:54pt}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card-frame">
+      <div id="card" class="card" tabindex="0" aria-live="polite">
+        <div id="inner" class="inner">
+          <div class="side front" id="frontSide">
+            <div style="text-align:center;">
+              <div class="pinyin" id="pinyin">qīng chǔ</div>
+              <div style="height:18px"></div>
+              <div class="speaker-btn" id="frontSpeaker" title="播放中文读音" aria-label="播放中文读音">
+                <svg class="speaker-icon" viewBox="0 0 24 24"><path fill="#ff6fa3" d="M3 10v4h4l5 5V5L7 10H3z"></path></svg>
+              </div>
+            </div>
+            <div class="word-meta" id="lessonTag">第八课 蝙蝠和雷达</div>
+          </div>
+
+          <div class="side back" id="backSide">
+            <div style="text-align:center;max-width:88%;">
+              <div class="term" id="term">清楚</div>
+              <div class="english" id="eng">clear</div>
+
+              <div class="sentence-row">
+                <div class="sentence" id="sentence">我看得很清楚，那是一只小蝙蝠。</div>
+                <div class="speaker-btn" id="backSpeaker" title="朗读造句" aria-label="朗读造句">
+                  <svg class="speaker-icon" viewBox="0 0 24 24"><path fill="#ffd166" d="M3 10v4h4l5 5V5L7 10H3z"></path></svg>
+                </div>
+              </div>
+
+              <div style="height:10px"></div>
+              <div style="font-size:15pt;color:#444;" id="sentenceEn">I can see clearly that it is a small bat.</div>
+            </div>
+            <div class="word-meta" id="lessonTagBack">第八课 蝙蝠和雷达</div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="controls">
+      <button id="prevBtn" class="nav">← 上一页</button>
+      <button id="nextBtn" class="nav">下一页 →</button>
+    </div>
+  </div>
+
+  <script>
+    const cards = [
+      {word:'清楚', pinyin:'qīng chǔ', english:'clear', sentence_cn:'我看得很清楚，那是一只小蝙蝠。', sentence_en:'I can see clearly that it is a small bat.'},
+      {word:'问题', pinyin:'wèn tí', english:'question', sentence_cn:'老师在课上回答了我的问题。', sentence_en:'The teacher answered my question in class.'},
+      {word:'证明', pinyin:'zhèng míng', english:'prove', sentence_cn:'科学家用实验来证明他们的想法。', sentence_en:'Scientists use experiments to prove their ideas.'},
+      {word:'配合', pinyin:'pèi hé', english:'coordinate', sentence_cn:'大家要互相配合，才能完成任务。', sentence_en:'Everyone must cooperate with each other to complete the task.'},
+      {word:'隆隆', pinyin:'lóng lóng', english:'rumble', sentence_cn:'天空传来隆隆的雷声。', sentence_en:'A rumbling sound of thunder came from the sky.'},
+      {word:'试验', pinyin:'shì yàn', english:'experiment', sentence_cn:'他们正在进行新的飞行试验。', sentence_en:'They are conducting a new flight experiment.'},
+      {word:'模仿', pinyin:'mó fǎng', english:'imitate', sentence_cn:'弟弟喜欢模仿小猫的叫声。', sentence_en:'My younger brother likes to imitate the sound of a kitten.'},
+      {word:'研究', pinyin:'yán jiū', english:'research', sentence_cn:'他正在研究动物怎样在黑暗中看见东西。', sentence_en:'He is studying how animals can see in the dark.'},
+      {word:'遇到', pinyin:'yù dào', english:'meet with', sentence_cn:'我们在森林里遇到了一群蝙蝠。', sentence_en:'We met a group of bats in the forest.'},
+      {word:'推进', pinyin:'tuī jìn', english:'carry forward', sentence_cn:'新科技的出现推进了社会的发展。', sentence_en:'The emergence of new technology has advanced social development.'},
+      {word:'此起彼伏', pinyin:'cǐ qǐ bǐ fú', english:'rise one after another', sentence_cn:'山谷里传来此起彼伏的鸟叫声。', sentence_en:'The sounds of birds echoed one after another in the valley.'},
+      {word:'横七竖八', pinyin:'héng qī shù bā', english:'at sixes and sevens', sentence_cn:'课室的扫把横七竖八地散落在地上。', sentence_en:'The brooms in the classroom were scattered all over the floor at sixes and sevens.'},
+      {word:'一目了然', pinyin:'yí mù liǎo rán', english:'be absolutely clear', sentence_cn:'她把书本摆放得很整齐，一目了然。', sentence_en:'She arranged the books neatly, and everything is clear at a glance.'}
+    ];
+
+    // elements
+    const cardEl = document.getElementById('card');
+    const pinyinEl = document.getElementById('pinyin');
+    const termEl = document.getElementById('term');
+    const engEl = document.getElementById('eng');
+    const sentenceEl = document.getElementById('sentence');
+    const sentenceEnEl = document.getElementById('sentenceEn');
+    const frontSpeaker = document.getElementById('frontSpeaker');
+    const backSpeaker = document.getElementById('backSpeaker');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+
+    let idx = 0;
+    let flipped = false;
+
+    function render(){
+      const c = cards[idx];
+      pinyinEl.textContent = c.pinyin.toLowerCase();
+      termEl.textContent = c.word;
+      engEl.textContent = c.english;
+      sentenceEl.textContent = c.sentence_cn;
+      sentenceEnEl.textContent = c.sentence_en;
+      // always show front when navigating
+      if(flipped) toggleFlip(false);
+      updateNav();
+    }
+
+    function updateNav(){
+      prevBtn.disabled = (idx===0);
+      nextBtn.disabled = (idx===cards.length-1);
+    }
+
+    function speakChinese(text, rate=1.0){
+      if(!window.speechSynthesis) return;
+      window.speechSynthesis.cancel();
+      const u = new SpeechSynthesisUtterance(text);
+      u.lang = 'zh-CN';
+      u.rate = rate;
+      window.speechSynthesis.speak(u);
+    }
+
+    function toggleFlip(doFlip=true){
+      flipped = doFlip;
+      if(flipped) cardEl.classList.add('flipped');
+      else cardEl.classList.remove('flipped');
+    }
+
+    // Click on card (not speaker) to flip
+    cardEl.addEventListener('click', (e)=>{
+      if(e.target.closest('.speaker-btn')) return;
+      toggleFlip(!flipped);
+    });
+
+    // front speaker: read the word (standard Chinese)
+    frontSpeaker.addEventListener('click',(e)=>{
+      e.stopPropagation();
+      const c = cards[idx];
+      speakChinese(c.word, 1.0);
+    });
+
+    // back speaker: read the sentence at rate 0.6
+    backSpeaker.addEventListener('click',(e)=>{
+      e.stopPropagation();
+      const c = cards[idx];
+      speakChinese(c.sentence_cn, 0.6);
+    });
+
+    prevBtn.addEventListener('click',(e)=>{
+      idx = Math.max(0, idx-1);
+      render();
+    });
+    nextBtn.addEventListener('click',(e)=>{
+      idx = Math.min(cards.length-1, idx+1);
+      render();
+    });
+
+    // keyboard navigation
+    cardEl.addEventListener('keydown',(e)=>{
+      if(e.key === 'ArrowRight') nextBtn.click();
+      if(e.key === 'ArrowLeft') prevBtn.click();
+      if(e.key === 'Enter' || e.key === ' ') toggleFlip(!flipped);
+    });
+
+    // init
+    render();
+  </script>
+</body>
+</html>

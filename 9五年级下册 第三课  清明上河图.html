@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>下册 第三课 — 清明上河图 字卡</title>
+  <style>
+    :root{
+      --bg:#fff8fb; --card:#fff; --accent:#d0f0ff; --green:#2e8b57; --text:#222;
+      --card-radius:18px; --card-shadow:0 8px 24px rgba(34,34,34,0.12);
+    }
+    html,body{height:100%;margin:0;font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; background:linear-gradient(180deg,#f0fbff 0%, #ffffff 100%); color:var(--text)}
+    .wrap{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px}
+
+    .card-frame{width:740px;max-width:92vw;min-height:480px;display:flex;align-items:center;justify-content:center}
+    .card{width:100%;height:460px;background:var(--card);border-radius:var(--card-radius);box-shadow:var(--card-shadow);position:relative;perspective:1200px}
+
+    .inner{position:absolute;inset:0;border-radius:inherit;transform-style:preserve-3d;transition:transform 600ms cubic-bezier(.2,.9,.3,1)}
+    .flipped .inner{transform:rotateY(180deg)}
+    .side{position:absolute;inset:0;backface-visibility:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px;box-sizing:border-box}
+
+    .front{background:linear-gradient(135deg,var(--accent),#fff);}
+    .pinyin{font-size:70pt;line-height:1;letter-spacing:4px;font-weight:700;text-transform:lowercase;margin:8px 0;font-family: 'Helvetica Neue', Arial, sans-serif}
+
+    .word-meta{position:absolute;right:14px;bottom:12px;font-size:16pt;color:#555}
+
+    .speaker-btn{width:62px;height:62px;border-radius:50%;display:inline-grid;place-items:center;background:#fff;border:2px solid #d0f0ff;box-shadow:0 6px 14px rgba(0,0,0,0.06);cursor:pointer}
+    .speaker-btn:active{transform:scale(.98)}
+    .speaker-icon{width:26px;height:26px}
+
+    .back{transform:rotateY(180deg);font-family: "KaiTi","DFKai-SB", 'STKaiti', serif}
+    .term{font-size:30pt;color:#000;margin-bottom:6px}
+    .english{font-size:20pt;color:var(--green);margin-bottom:10px}
+    .sentence{font-size:16pt;color:#111;margin-bottom:8px}
+    .sentence-row{display:flex;gap:12px;align-items:center}
+
+    .controls{margin-top:18px;display:flex;gap:12px;align-items:center}
+    button.nav{padding:10px 18px;border-radius:10px;border:none;background:#fff;font-size:16px;box-shadow:0 6px 12px rgba(0,0,0,0.06);cursor:pointer}
+    button.nav:disabled{opacity:.45;cursor:not-allowed}
+
+    .lesson-tag{font-size:16pt;color:#666}
+
+    @media (max-width:560px){.card-frame{min-height:420px}.pinyin{font-size:54pt}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card-frame">
+      <div id="card" class="card" tabindex="0" aria-live="polite">
+        <div id="inner" class="inner">
+          <div class="side front" id="frontSide">
+            <div style="text-align:center;">
+              <div class="pinyin" id="pinyin">bǎo cún</div>
+              <div style="height:18px"></div>
+              <div class="speaker-btn" id="frontSpeaker" title="播放中文读音" aria-label="播放中文读音">
+                <svg class="speaker-icon" viewBox="0 0 24 24"><path fill="#33aaff" d="M3 10v4h4l5 5V5L7 10H3z"></path></svg>
+              </div>
+            </div>
+            <div class="word-meta" id="lessonTag">下册 第三课 清明上河图</div>
+          </div>
+
+          <div class="side back" id="backSide">
+            <div style="text-align:center;max-width:88%;">
+              <div class="term" id="term">保存</div>
+              <div class="english" id="eng">storage</div>
+
+              <div class="sentence-row">
+                <div class="sentence" id="sentence">请把这份文件保存好。</div>
+                <div class="speaker-btn" id="backSpeaker" title="朗读造句" aria-label="朗读造句">
+                  <svg class="speaker-icon" viewBox="0 0 24 24"><path fill="#ffd166" d="M3 10v4h4l5 5V5L7 10H3z"></path></svg>
+                </div>
+              </div>
+
+              <div style="height:10px"></div>
+              <div style="font-size:15pt;color:#444;" id="sentenceEn">Please save this document carefully.</div>
+            </div>
+            <div class="word-meta" id="lessonTagBack">下册 第三课 清明上河图</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="controls">
+      <button id="prevBtn" class="nav">← 上一页</button>
+      <button id="nextBtn" class="nav">下一页 →</button>
+    </div>
+  </div>
+
+  <script>
+    const cards = [
+      {word:'保存', pinyin:'bǎo cún', english:'storage', sentence_cn:'请把这份文件保存好。', sentence_en:'Please save this document carefully.'},
+      {word:'博物院', pinyin:'bó wù yuàn', english:'museum', sentence_cn:'爸爸带我去参观博物院。', sentence_en:'My dad took me to visit the museum.'},
+      {word:'农民', pinyin:'nóng mín', english:'farmer', sentence_cn:'农民在田里辛苦工作。', sentence_en:'The farmers work hard in the fields.'},
+      {word:'尺寸', pinyin:'chǐ cùn', english:'size', sentence_cn:'这件衣服的尺寸正好合适。', sentence_en:'The size of this clothes fits perfectly.'},
+      {word:'车水马龙', pinyin:'chē shuǐ mǎ lóng', english:'be crowded with people and vehicles', sentence_cn:'节日的街道上车水马龙。', sentence_en:'The streets are crowded with people and vehicles during the festival.'},
+      {word:'茶馆', pinyin:'chá guǎn', english:'teahouse', sentence_cn:'我们在茶馆喝茶聊天。', sentence_en:'We drink tea and chat in the teahouse.'},
+      {word:'官员', pinyin:'guān yuán', english:'officer', sentence_cn:'官员正在开会讨论问题。', sentence_en:'The officers are having a meeting to discuss issues.'},
+      {word:'甚至', pinyin:'shèn zhì', english:'even', sentence_cn:'他学习很努力，甚至连周末也不休息。', sentence_en:'He studies so hard that he doesn’t even rest on weekends.'},
+      {word:'避免', pinyin:'bì miǎn', english:'avoid', sentence_cn:'上街时要戴口罩以避免感冒。', sentence_en:'You should wear a mask when going out to avoid catching a cold.'},
+      {word:'栏杆', pinyin:'lán gān', english:'railing', sentence_cn:'小心栏杆旁的台阶。', sentence_en:'Be careful of the steps next to the railing.'},
+      {word:'绘画', pinyin:'huì huà', english:'drawing', sentence_cn:'她喜欢在课余时间绘画。', sentence_en:'She likes drawing in her spare time.'},
+      {word:'风貌', pinyin:'fēn gmào', english:'style', sentence_cn:'这座城市有古老的建筑风貌。', sentence_en:'This city has ancient architectural style.'},
+      {word:'优秀', pinyin:'yōu xiù', english:'outstanding', sentence_cn:'他是班里最优秀的学生。', sentence_en:'He is the most outstanding student in the class.'},
+      {word:'普通', pinyin:'pǔ tōng', english:'normal', sentence_cn:'普通百姓的愿望很简单，希望日子过得平平安安。', sentence_en:'The wishes of ordinary people are simple; they hope for a safe and peaceful life.'},
+      {word:'百姓', pinyin:'bǎi xìng', english:'common people', sentence_cn:'百姓都很关心城市的发展。', sentence_en:'The common people are concerned about the city’s development.'},
+      {word:'不可多得', pinyin:'bú kě duō dé', english:'difficult to get', sentence_cn:'这本书是不可多得的好书。', sentence_en:'This book is a rare and good book.'},
+      {word:'来来往往', pinyin:'lái lái wǎng wǎng', english:'come and go', sentence_cn:'马路上的车子来来往往，非常热闹。', sentence_en:'Cars come and go on the road; it is very lively.'}
+    ];
+
+    const cardEl = document.getElementById('card');
+    const inner = document.getElementById('inner');
+    const pinyinEl = document.getElementById('pinyin');
+    const termEl = document.getElementById('term');
+    const engEl = document.getElementById('eng');
+    const sentenceEl = document.getElementById('sentence');
+    const sentenceEnEl = document.getElementById('sentenceEn');
+    const frontSpeaker = document.getElementById('frontSpeaker');
+    const backSpeaker = document.getElementById('backSpeaker');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+
+    let idx = 0;
+    let flipped = false;
+
+    function render(){
+      const c = cards[idx];
+      pinyinEl.textContent = c.pinyin.toLowerCase();
+      termEl.textContent = c.word;
+      engEl.textContent = c.english;
+      sentenceEl.textContent = c.sentence_cn;
+      sentenceEnEl.textContent = c.sentence_en;
+      if(flipped) toggleFlip(false, false);
+      updateNav();
+    }
+
+    function updateNav(){
+      prevBtn.disabled = (idx===0);
+      nextBtn.disabled = (idx===cards.length-1);
+    }
+
+    function speakChinese(text, rate=1.0){
+      if(!window.speechSynthesis) return;
+      window.speechSynthesis.cancel();
+      const u = new SpeechSynthesisUtterance(text);
+      u.lang = 'zh-CN';
+      u.rate = rate;
+      window.speechSynthesis.speak(u);
+    }
+
+    function toggleFlip(doFlip=true){
+      flipped = doFlip;
+      if(flipped) cardEl.classList.add('flipped');
+      else cardEl.classList.remove('flipped');
+    }
+
+    cardEl.addEventListener('click', (e)=>{
+      const target = e.target;
+      if(target.closest('.speaker-btn')) return;
+      toggleFlip(!flipped);
+    });
+
+    frontSpeaker.addEventListener('click',(e)=>{
+      e.stopPropagation();
+      const c = cards[idx];
+      speakChinese(c.word, 1.0);
+    });
+
+    backSpeaker.addEventListener('click',(e)=>{
+      e.stopPropagation();
+      const c = cards[idx];
+      speakChinese(c.sentence_cn, 0.6);
+    });
+
+    prevBtn.addEventListener('click',(e)=>{
+      idx = Math.max(0, idx-1);
+      render();
+    });
+    nextBtn.addEventListener('click',(e)=>{
+      idx = Math.min(cards.length-1, idx+1);
+      render();
+    });
+
+    cardEl.addEventListener('keydown',(e)=>{
+      if(e.key === 'ArrowRight') nextBtn.click();
+      if(e.key === 'ArrowLeft') prevBtn.click();
+      if(e.key === 'Enter' || e.key === ' ') toggleFlip(!flipped);
+    });
+
+    render();
+  </script>
+</body>
+</html>

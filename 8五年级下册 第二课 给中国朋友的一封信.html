@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>下册 第二课 — 给中国朋友的一封信 字卡</title>
+  <style>
+    :root{
+      --bg:#fff8fb; --card:#fff; --accent:#d0f0ff; --green:#2e8b57; --text:#222;
+      --card-radius:18px; --card-shadow:0 8px 24px rgba(34,34,34,0.12);
+    }
+    html,body{height:100%;margin:0;font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; background:linear-gradient(180deg,#f0fbff 0%, #ffffff 100%); color:var(--text)}
+    .wrap{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px}
+
+    .card-frame{width:740px;max-width:92vw;min-height:480px;display:flex;align-items:center;justify-content:center}
+    .card{width:100%;height:460px;background:var(--card);border-radius:var(--card-radius);box-shadow:var(--card-shadow);position:relative;perspective:1200px}
+
+    .inner{position:absolute;inset:0;border-radius:inherit;transform-style:preserve-3d;transition:transform 600ms cubic-bezier(.2,.9,.3,1)}
+    .flipped .inner{transform:rotateY(180deg)}
+    .side{position:absolute;inset:0;backface-visibility:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px;box-sizing:border-box}
+
+    .front{background:linear-gradient(135deg,var(--accent),#fff);}
+    .pinyin{font-size:70pt;line-height:1;letter-spacing:4px;font-weight:700;text-transform:lowercase;margin:8px 0;font-family: 'Helvetica Neue', Arial, sans-serif}
+
+    .word-meta{position:absolute;right:14px;bottom:12px;font-size:16pt;color:#555}
+
+    .speaker-btn{width:62px;height:62px;border-radius:50%;display:inline-grid;place-items:center;background:#fff;border:2px solid #d0f0ff;box-shadow:0 6px 14px rgba(0,0,0,0.06);cursor:pointer}
+    .speaker-btn:active{transform:scale(.98)}
+    .speaker-icon{width:26px;height:26px}
+
+    .back{transform:rotateY(180deg);font-family: "KaiTi","DFKai-SB", 'STKaiti', serif}
+    .term{font-size:30pt;color:#000;margin-bottom:6px}
+    .english{font-size:20pt;color:var(--green);margin-bottom:10px}
+    .sentence{font-size:16pt;color:#111;margin-bottom:8px}
+    .sentence-row{display:flex;gap:12px;align-items:center}
+
+    .controls{margin-top:18px;display:flex;gap:12px;align-items:center}
+    button.nav{padding:10px 18px;border-radius:10px;border:none;background:#fff;font-size:16px;box-shadow:0 6px 12px rgba(0,0,0,0.06);cursor:pointer}
+    button.nav:disabled{opacity:.45;cursor:not-allowed}
+
+    .lesson-tag{font-size:16pt;color:#666}
+
+    @media (max-width:560px){.card-frame{min-height:420px}.pinyin{font-size:54pt}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card-frame">
+      <div id="card" class="card" tabindex="0" aria-live="polite">
+        <div id="inner" class="inner">
+          <div class="side front" id="frontSide">
+            <div style="text-align:center;">
+              <div class="pinyin" id="pinyin">kē huàn</div>
+              <div style="height:18px"></div>
+              <div class="speaker-btn" id="frontSpeaker" title="播放中文读音" aria-label="播放中文读音">
+                <svg class="speaker-icon" viewBox="0 0 24 24"><path fill="#33aaff" d="M3 10v4h4l5 5V5L7 10H3z"></path></svg>
+              </div>
+            </div>
+            <div class="word-meta" id="lessonTag">下册 第二课 给中国朋友的一封信</div>
+          </div>
+
+          <div class="side back" id="backSide">
+            <div style="text-align:center;max-width:88%;">
+              <div class="term" id="term">科幻</div>
+              <div class="english" id="eng">science fiction</div>
+
+              <div class="sentence-row">
+                <div class="sentence" id="sentence">我喜欢看科幻电影。</div>
+                <div class="speaker-btn" id="backSpeaker" title="朗读造句" aria-label="朗读造句">
+                  <svg class="speaker-icon" viewBox="0 0 24 24"><path fill="#ffd166" d="M3 10v4h4l5 5V5L7 10H3z"></path></svg>
+                </div>
+              </div>
+
+              <div style="height:10px"></div>
+              <div style="font-size:15pt;color:#444;" id="sentenceEn">I like watching science fiction movies.</div>
+            </div>
+            <div class="word-meta" id="lessonTagBack">下册 第二课 给中国朋友的一封信</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="controls">
+      <button id="prevBtn" class="nav">← 上一页</button>
+      <button id="nextBtn" class="nav">下一页 →</button>
+    </div>
+  </div>
+
+  <script>
+    const cards = [
+      {word:'科幻', pinyin:'kē huàn', english:'science fiction', sentence_cn:'我喜欢看科幻电影。', sentence_en:'I like watching science fiction movies.'},
+      {word:'陆地', pinyin:'lù dì', english:'land', sentence_cn:'地球上的陆地面积占了大约三分之一。', sentence_en:'Land on Earth accounts for only about one third of the surface.'},
+      {word:'丰富', pinyin:'fēng fù', english:'abundant', sentence_cn:'图书馆的资源非常丰富。', sentence_en:'The library’s resources are very abundant.'},
+      {word:'佩服', pinyin:'pèi fú', english:'admire', sentence_cn:'我很佩服他的勇气。', sentence_en:'I really admire his courage.'},
+      {word:'战争', pinyin:'zhàn zhēng', english:'war', sentence_cn:'战争带来了很多痛苦。', sentence_en:'War brings a lot of suffering.'},
+      {word:'阅读', pinyin:'yuè dú', english:'reading', sentence_cn:'我每天都会阅读一小时。', sentence_en:'I read for an hour every day.'},
+      {word:'过程', pinyin:'guò chéng', english:'process', sentence_cn:'学习的过程很重要。', sentence_en:'The process of learning is very important.'},
+      {word:'坚持', pinyin:'jiān chí', english:'insist on / uphold', sentence_cn:'我们要坚持每天锻炼。', sentence_en:'We must insist on exercising every day.'},
+      {word:'字典', pinyin:'zì diǎn', english:'dictionary', sentence_cn:'我用字典查生词。', sentence_en:'I use a dictionary to look up new words.'},
+      {word:'成绩', pinyin:'chéng jì', english:'results', sentence_cn:'他的成绩提高了很多。', sentence_en:'His results have improved a lot.'},
+      {word:'明显', pinyin:'míng xiǎn', english:'clear / obvious', sentence_cn:'这次考试，他的成绩明显提高了。', sentence_en:'His grades improved significantly in this exam.'},
+      {word:'放弃', pinyin:'fàng qì', english:'give up', sentence_cn:'他没有放弃自己的梦想。', sentence_en:'He did not give up on his dreams.'},
+      {word:'尤其', pinyin:'yóu qí', english:'especially', sentence_cn:'她喜欢水果，尤其是苹果。', sentence_en:'She likes fruits, especially apples.'},
+      {word:'感召', pinyin:'gǎn zhào', english:'touch / moving', sentence_cn:'在卫生部的感召下，人民爱上了运动。', sentence_en:'Under the ministry’s call, people have grown to love exercise.'},
+      {word:'诗歌', pinyin:'shī gē', english:'poetry', sentence_cn:'我小时候很喜欢朗诵诗歌。', sentence_en:'I liked reciting poetry when I was little.'},
+      {word:'日积月累', pinyin:'rì jī yuè lěi', english:'accumulate over a long period', sentence_cn:'学习要日积月累，才能进步。', sentence_en:'Learning requires accumulation over a long period to make progress.'},
+      {word:'奇思妙想', pinyin:'qí sī miào xiǎng', english:'bright ideas', sentence_cn:'他有很多奇思妙想。', sentence_en:'He has many bright ideas.'},
+      {word:'有志者事竟成', pinyin:'yǒu zhì zhě shì jìng chéng', english:"when there’s a will, there’s a way", sentence_cn:'有志者事竟成，只要坚持，就会成功。', sentence_en:'When there’s a will, there’s a way; as long as you persist, you will succeed.'}
+    ];
+
+    const cardEl = document.getElementById('card');
+    const inner = document.getElementById('inner');
+    const pinyinEl = document.getElementById('pinyin');
+    const termEl = document.getElementById('term');
+    const engEl = document.getElementById('eng');
+    const sentenceEl = document.getElementById('sentence');
+    const sentenceEnEl = document.getElementById('sentenceEn');
+    const frontSpeaker = document.getElementById('frontSpeaker');
+    const backSpeaker = document.getElementById('backSpeaker');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+
+    let idx = 0;
+    let flipped = false;
+
+    function render(){
+      const c = cards[idx];
+      pinyinEl.textContent = c.pinyin.toLowerCase();
+      termEl.textContent = c.word;
+      engEl.textContent = c.english;
+      sentenceEl.textContent = c.sentence_cn;
+      sentenceEnEl.textContent = c.sentence_en;
+      if(flipped) toggleFlip(false);
+      updateNav();
+    }
+
+    function updateNav(){
+      prevBtn.disabled = (idx===0);
+      nextBtn.disabled = (idx===cards.length-1);
+    }
+
+    function speakChinese(text, rate=1.0){
+      if(!window.speechSynthesis) return;
+      window.speechSynthesis.cancel();
+      const u = new SpeechSynthesisUtterance(text);
+      u.lang = 'zh-CN';
+      u.rate = rate;
+      window.speechSynthesis.speak(u);
+    }
+
+    function toggleFlip(doFlip=true){
+      flipped = doFlip;
+      if(flipped) cardEl.classList.add('flipped');
+      else cardEl.classList.remove('flipped');
+    }
+
+    cardEl.addEventListener('click', (e)=>{
+      const target = e.target;
+      if(target.closest('.speaker-btn')) return;
+      toggleFlip(!flipped);
+    });
+
+    frontSpeaker.addEventListener('click',(e)=>{
+      e.stopPropagation();
+      const c = cards[idx];
+      speakChinese(c.word, 1.0);
+    });
+
+    backSpeaker.addEventListener('click',(e)=>{
+      e.stopPropagation();
+      const c = cards[idx];
+      speakChinese(c.sentence_cn, 0.6);
+    });
+
+    prevBtn.addEventListener('click',(e)=>{
+      idx = Math.max(0, idx-1);
+      render();
+    });
+    nextBtn.addEventListener('click',(e)=>{
+      idx = Math.min(cards.length-1, idx+1);
+      render();
+    });
+
+    cardEl.addEventListener('keydown',(e)=>{
+      if(e.key === 'ArrowRight') nextBtn.click();
+      if(e.key === 'ArrowLeft') prevBtn.click();
+      if(e.key === 'Enter' || e.key === ' ') toggleFlip(!flipped);
+    });
+
+    render();
+  </script>
+</body>
+</html>
